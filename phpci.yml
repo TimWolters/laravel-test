@@ -14,16 +14,23 @@ setup:
 
 test:
   php_mess_detector:
-    allowed_warnings: -1
+   rules:
+    - "codesize"
+    - "unusedcode"
+    - "naming"
+    allow_failures: true
   php_code_sniffer:
     standard: "PSR2"
     allowed_warnings: -1
     allowed_errors: -1
+    allow_failures: true
   php_loc:
   php_docblock_checker:
-    allowed_failure: true
+    allow_failures: true
     allowed_warnings: -1 # Allow unlimited warnings for now.
 
 failure:
   email:
     cc: ["tim.ms.wolters@gmail.com"]
+
+success: 
