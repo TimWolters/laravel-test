@@ -17,10 +17,11 @@ test:
     allowed_warnings: 0
   php_code_sniffer:
     standard: "PSR2"
-    allowed_warnings: 0
-    allowed_errors: 0
+    allowed_warnings: 1000
+    allowed_errors: 1000
   php_loc:
   php_docblock_checker:
+    allowed_failure: true
     allowed_warnings: -1 # Allow unlimited warnings for now.
 
 failure:
