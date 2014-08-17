@@ -11,7 +11,6 @@ build_settings:
 setup:
   composer:
     action: "install"
-    prefer_dist: false
 
 test:
   php_mess_detector:
@@ -21,10 +20,6 @@ test:
     allowed_warnings: 0
     allowed_errors: 0
   php_loc:
-  php_unit:
-      config: "phpunit.xml"
-      directory: 
-       - "tests/"
   php_docblock_checker:
     allowed_warnings: -1 # Allow unlimited warnings for now.
 
