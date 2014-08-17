@@ -14,11 +14,11 @@ setup:
 
 test:
   php_mess_detector:
-    allowed_warnings: 0
+    allowed_warnings: -1
   php_code_sniffer:
     standard: "PSR2"
-    allowed_warnings: 1000
-    allowed_errors: 1000
+    allowed_warnings: -1
+    allowed_errors: -1
   php_loc:
   php_docblock_checker:
     allowed_failure: true
