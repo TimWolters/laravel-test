@@ -14,11 +14,12 @@
 
 Route::get('/', function()
 {
-	//
+	//documentation here
 });
 
 Route::resource('employees', 'EmployeeController');
-
+Route::resource('tasks', 'TaskController');
+Route::resource('categories', 'CategoryController');
 
 //crud call taak + lijst
 //crud call werknemer + lijst

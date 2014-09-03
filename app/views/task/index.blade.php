@@ -18,11 +18,11 @@
 						</td>
 					@endforeach
 					<td>
-						<form action="employees/{{ $row->id }}/edit" method="get">
+						<form action="tasks/{{ $row->id }}/edit" method="get">
 						<button type='submit' class='btn btn-warning'>Change</button></form>
 					</td>
 					<td>
-						<form action="employees/{{ $row->id }}" method="delete">
+						<form action="tasks/{{ $row->id }}" method="delete">
 						<button type='submit' class='btn btn-danger'>Delete</button></form>
 					</td>
 				</tr>

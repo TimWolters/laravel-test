@@ -1,0 +1,4 @@
+@if (isset( $edit ) == 0) {{ $edit = 'hidden' }}
+	@endif
+
+{{ $edit }}

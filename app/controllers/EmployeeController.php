@@ -37,8 +37,7 @@ class EmployeeController extends \BaseController {
 		$rules = array(
 				'firstname'	=> 'required',
 				'lastname'	=> 'required',
-				'email'		=> 'required|email',
-				'password'	=> 'required',
+				'email'		=> 'required|email'
 			);
 
 		$validator = Validator::make(Input::all(), $rules);
@@ -47,12 +46,14 @@ class EmployeeController extends \BaseController {
 			return $validator->failed();
 		} 
 
-		$employee 				= new Employee;
-		$employee->firstname 	= Input::get('firstname');
-		$employee->lastname 	= Input::get('lastname');
-		$employee->email 		= Input::get('email');
-		$employee->password 	= Input::get('password');
-		return $employee->id;
+		$employee 						= new Employee;
+		$employee->firstname 			= Input::get('firstname');
+		$employee->lastname 			= Input::get('lastname');
+		$employee->email 				= Input::get('email');
+		$employee->password 			= Input::get('password');
+		$employee->save();
+		//$employee->password_confirm 	= Input::get('password_confirm');
+		return Redirect::to('./employees/');
 	}
 
 
@@ -76,11 +77,8 @@ class EmployeeController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$employee = Employee::find($id);
-		echo Form::model($employee, array('EmployeeController@update', $employee->id));
-		echo Form::close();
+		return View::make('employee.edit', array('employee' => Employee::find($id)));
 	}
-
 
 	/**
 	 * Update the specified resource in storage.
@@ -90,7 +88,28 @@ class EmployeeController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$rules = array(
+				'firstname'	=> 'required',
+				'lastname'	=> 'required',
+				'email'		=> 'required|email',
+				'password'	=> 'required'
+			);
+
+		$validator = Validator::make(Input::all(), $rules);
+		
+		if($validator->fails()){
+			return $validator->failed();
+		} 
+
+
+
+		$employee 				= new Employee;
+		$employee->firstname 	= Input::get('firstname');
+		$employee->lastname 	= Input::get('lastname');
+		$employee->email 		= Input::get('email');
+		$employee->password 	= Input::get('password');
+		$employee->save();
+		return Redirect::to('employees');
 	}
 
 
@@ -102,7 +121,8 @@ class EmployeeController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		Response::make(Employee::find($id)->delete(), 204);
+		Employee::find($id)->delete();
+		return Redirect::to('employees/');
 	}
 
 
