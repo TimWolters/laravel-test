@@ -12,8 +12,9 @@ class Employee extends Eloquent implements UserInterface, RemindableInterface {
 	protected $table = 'employees';
 	protected $hidden = array('password', 'remember_token');
 
-	public function tasks(){
-		return $this->belongsToMany('Task', 'foreign_key');
+	public function tasks()
+	{
+		return $this->hasMany('Task', 'foreign_key');
 	}
 
 	public function getauthIdentifier()

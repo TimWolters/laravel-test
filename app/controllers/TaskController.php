@@ -9,25 +9,24 @@ class TaskController extends \BaseController {
 	 */
 	public function index()
 	{
-	// return View::make('task.index', array(
-	// 			'data' => Task::all()
-	// 		));
-		d(Task::with('employee', 'category')->get());
+	return View::make('task.index', array(
+				'data' => Task::with('employee', 'category')->get(), 'employees' => Employee::lists('email','id'), 'categories' => Category::lists('name', 'id')
+			));
 	}
 
 	public function getTasksOfMe(){
-		return View::make('task.index', array('data' => Task::where('employee_id', '=', Auth::id())->get()));
+		return View::make('task.index', array('data' => Task::where('employee_id', '=', Auth::id())->get(), 'employees' => Employee::lists('email','id'), 'categories' => Category::lists('name', 'id')));
 	}
 
 	public function getTasksOf($userId){
-		return View::make('task.index', array('data' => Task::where('employee_id', '=', $userId)->get()));
+		return View::make('task.index', array('data' => Task::where('employee_id', '=', $userId)->get(), 'employees' => Employee::lists('email','id'), 'categories' => Category::lists('name', 'id')));
 	}
 
 	//deliver date in yyyy-mm-dd hh:mm:ss
 	public function getTasksBefore($date)
 	{
 		return View::make('task.index', array(
-				'data' => Task::where('due_date', '<', date($date))->get()
+				'data' => Task::where('due_date', '<', date($date))->get(), 'employees' => Employee::lists('email','id'), 'categories' => Category::lists('name', 'id')
 			));
 	}
 

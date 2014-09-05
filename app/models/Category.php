@@ -5,6 +5,6 @@ class Category extends Eloquent {
 	protected $table = 'categories';
 
 	public function tasks(){
-		return $this->morphMany('Task', 'foreign_key');
+		return $this->hasMany('Task', 'foreign_key');
 	}
 }
