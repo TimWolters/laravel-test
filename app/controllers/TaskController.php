@@ -1,6 +1,6 @@
 <?php
 
-class TaskController extends \BaseController {
+class TaskController extends BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -18,7 +18,8 @@ class TaskController extends \BaseController {
 
 	public function getTasksOfMe(){
 		return View::make('task.index', array(
-				'data' => \Model\Task::where('employee_id', '=', Auth::id())->get(), 
+				'data' => \Model\Task::where('employee_id', '=', Auth::id())
+									 ->where('completed_at', '!=', '0000-00-00 00:00:00')->get(), 
 				'employees' => \Model\Employee::lists('email','id'), 
 				'categories' => \Model\Category::lists('name', 'id')));
 	}
@@ -51,7 +52,7 @@ class TaskController extends \BaseController {
 
 	public function getDeletedTasks()
 	{
-		return View::make('task.index', array(
+		return View::make('task.deleted', array(
 				'data' => \Model\Task::onlyTrashed()->with('employee', 'category')->get(),
 				'employees' => \Model\Employee::lists('email','id'), 
 				'categories' => \Model\Category::lists('name', 'id')
@@ -61,25 +62,16 @@ class TaskController extends \BaseController {
 	public function completeTask($id)
 	{
 		$task 					= \Model\Task::find($id);
-		$task->completed_at 	= strtotime(time());
+		$task->completed_at 	= date("Y-m-d H:i:s", time());
 		$task->save();
-		return View::make('task.index', array(
-				'data' => \Model\Task::with('employee', 'category')->get(), 
-				'employees' => \Model\Employee::lists('email','id'), 
-				'categories' => \Model\Category::lists('name', 'id'),
-			));
-
+		return Redirect::to('/tasks');
 	}
 
-	public function necroTask($id)
+	public function restoreTask($id)
 	{
-		$task 					= \Model\Task::find($id);
+		$task 					= \Model\Task::withTrashed()->find($id);
 		$task->restore();
-		return View::make('task.index', array(
-				'data' => \Model\Task::with('employee', 'category')->get(), 
-				'employees' => \Model\Employee::lists('email','id'), 
-				'categories' => \Model\Category::lists('name', 'id'),
-			));
+		return Redirect::to('/tasks');
 	}
 
 	/**
@@ -88,13 +80,12 @@ class TaskController extends \BaseController {
 	 * @return Response
 	 */
 	public function create()
-	{
+	{ 
 		return View::make('task.create', 
 				['employees' => \Model\Employee::lists('email','id'), 
 				'categories' => \Model\Category::lists('name', 'id')]
 			);
 	}
-
 
 	/**
 	 * Store a newly created resource in storage.

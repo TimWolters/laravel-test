@@ -24,35 +24,12 @@
 					<td><a href='/tasks/before/{{$row->due_date}}'> {{$row->due_date}}	</a></td>
 					<td> {{$row->completed_at}}												</td>
 					<td>
-						{{Form::open(['route' => ['tasks.edit', $row->id], 'method' => 'get'])}}
-						{{Form::submit('Edit', ['class' => 'btn btn-warning'])}}
-						{{Form::close()}}
-					</td>
-					<td>
-						{{Form::open(['route' => ['tasks.destroy', $row->id], 'method' => 'delete'])}}
-						{{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-						{{Form::close()}}
-					</td>
-					<td>
-						{{Form::open(['route' => ['tasks.complete', $row->id], 'method' => 'post'])}}
-						{{Form::submit('Complete', ['class' => 'btn btn-success'])}}
+						{{Form::open(['route' => ['tasks.restore', $row->id], 'method' => 'post'])}}
+						{{Form::submit('Restore', ['class' => 'btn btn-success'])}}
 						{{Form::close()}}
 					</td>
 				</tr>
 			@endforeach
-
-			<tr>
-				<td/>
-					 {{ Form::open(array('action' => 'TaskController@store')) }}
-				<td> {{ Form::text('title')}}													</td>
-				<td> {{ Form::text('description')}}												</td>
-				<td> {{ Form::select('category_id', $categories)}}								</td>
-				<td> {{ Form::select('employee_id', $employees)}}								</td>
-				<td> {{ Form::text('due_date',null,['placeholder' => 'yyyy-mm-dd hh:mm:ss']) }} </td><td />
-				<td> {{ Form::submit('Add', ['class' => 'btn btn-success']) }}					</td>
-					 {{ Form::close() }}
-			</tr>
-
 		</tbody>
 	</table>
 @stop
