@@ -14,13 +14,19 @@
 
 Route::get('/', function()
 {
-	//documentation here
+	//api-documentation or landing page here
 });
+
+Route::get('login', array('https' => true, 'as' => 'employee.login', 'uses' => 'EmployeeController@login'));
+Route::post('login', array('https' => true, 'as' => 'employee.signin', 'uses' => 'EmployeeController@signin'));
+
+Route::get('tasks/before/{date}', 	array( 'as' => 'tasks.before', 'uses' => 'TaskController@getTasksBefore'));
+Route::get('tasks/user/{userId}',	array( 'as' => 'tasks.fromUser', 'uses' => 'TaskController@getTasksOf'));
+Route::get('tasks/sort/{column}/{orderParam}/', array( 'as' => 'tasks.sort', 'uses' => 'TaskController@getTasksOrderedBy'));
+Route::get('tasks/me', 				array( 'as' => 'tasks.me', 'uses' => 'TaskController@getTasksOfMe'));
+Route::post('tasks/complete/{id}',	array( 'as' => 'tasks.complete', 'uses' => 'TaskController@completeTask'));
+Route::post('tasks/restore/{id}',	array( 'as' => 'tasks.restore', 'uses' => 'TaskController@restoreTask'));
 
 Route::resource('employees', 'EmployeeController');
 Route::resource('tasks', 'TaskController');
 Route::resource('categories', 'CategoryController');
-
-//crud call taak + lijst
-//crud call werknemer + lijst
-//link taak -> categorie

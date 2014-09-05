@@ -23,7 +23,10 @@ class CategoryController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('category.create');
+		return View::make('category.index', array(
+				'keys' => array('id', 'name', 'description'),
+				'data' => Category::all()
+			));
 	}
 
 
@@ -49,6 +52,7 @@ class CategoryController extends \BaseController {
 		$category->name 		= Input::get('name');
 		$category->description 	= Input::get('description');
 		$category->save();
+		return Redirect::to('/categories/');
 	}
 
 
@@ -60,7 +64,7 @@ class CategoryController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		return View::make('category.show', array('row' => Category::find($id)));
 	}
 
 
@@ -72,7 +76,7 @@ class CategoryController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		return View::make('category.edit', array('category' => Category::find($id)));
+		return View::make('category.edit', array('category' => Category::find($id), 'id' => $id));
 	}
 
 
@@ -84,7 +88,23 @@ class CategoryController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		echo $id;
+		$rules = array(
+				'name'			=> 'required',
+				'description'	=> 'required',
+			);
+
+		$validator = Validator::make(Input::all(), $rules);
+		
+		if($validator->fails()){
+			return $validator->failed();
+		} 
+
+		$category 				= Category::find($id);
+		$category->name 		= Input::get('name');
+		$category->description 	= Input::get('description');
+		$category->save();
+		return Redirect::to('/categories/');
 	}
 
 
@@ -96,7 +116,9 @@ class CategoryController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		Category::destroy($id); //THIS IS STILL DELETING STUFF
+
+		return Redirect::to('../categories');
 	}
 
 

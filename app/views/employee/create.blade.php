@@ -13,7 +13,7 @@
 		</thead>
 		<tbody>
 			<tr>
-				{{ Form::open(array('action' => 'EmployeeController@create')) }}
+				{{ Form::open(array('action' => 'EmployeeController@store')) }}
 				<td>{{ Form::text('firstname')}}										</td>
 				<td>{{ Form::text('lastname')}}											</td>
 				<td>{{ Form::email('email')}}											</td>

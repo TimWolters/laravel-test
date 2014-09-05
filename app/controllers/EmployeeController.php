@@ -16,6 +16,8 @@ class EmployeeController extends \BaseController {
 			));
 	}
 
+	
+
 
 	/**
 	 * Show the form for creating a new resource.
@@ -24,6 +26,32 @@ class EmployeeController extends \BaseController {
 	public function create()
 	{
 		return View::make('employee.create');
+	}
+
+	/**
+	* Logs in an employee
+	* @return Response
+	*/
+	public function signin(){
+			$rules = array(
+				'email'	=> 'required',
+				'password'	=> 'required',
+			);
+
+		$validator = Validator::make(Input::all(), $rules);
+		
+		if($validator->fails()){
+			return $validator->failed();
+		}
+
+		if(Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')))){
+			return Redirect::to('employees'); //change to personal tasks
+		}
+		return Redirect::to('login');
+	}
+
+	public function login(){
+		return View::make('employee.login');
 	}
 
 
@@ -37,23 +65,23 @@ class EmployeeController extends \BaseController {
 		$rules = array(
 				'firstname'	=> 'required',
 				'lastname'	=> 'required',
-				'email'		=> 'required|email'
+				'email'		=> 'required|email|unique:employees',
+				'password'	=> 'required|same:password_confirm'
 			);
 
 		$validator = Validator::make(Input::all(), $rules);
 		
 		if($validator->fails()){
 			return $validator->failed();
-		} 
-
+		}
+		
 		$employee 						= new Employee;
 		$employee->firstname 			= Input::get('firstname');
 		$employee->lastname 			= Input::get('lastname');
 		$employee->email 				= Input::get('email');
-		$employee->password 			= Input::get('password');
+		$employee->password 			= Hash::make(Input::get('password'));
 		$employee->save();
-		//$employee->password_confirm 	= Input::get('password_confirm');
-		return Redirect::to('./employees/');
+		return Redirect::to('./login/');
 	}
 
 
@@ -92,7 +120,6 @@ class EmployeeController extends \BaseController {
 				'firstname'	=> 'required',
 				'lastname'	=> 'required',
 				'email'		=> 'required|email',
-				'password'	=> 'required'
 			);
 
 		$validator = Validator::make(Input::all(), $rules);
@@ -102,8 +129,8 @@ class EmployeeController extends \BaseController {
 		} 
 
 
-
-		$employee 				= new Employee;
+		echo $id;
+		$employee 				= Employee::find($id);
 		$employee->firstname 	= Input::get('firstname');
 		$employee->lastname 	= Input::get('lastname');
 		$employee->email 		= Input::get('email');

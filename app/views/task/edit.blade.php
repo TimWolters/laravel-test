@@ -12,11 +12,11 @@
 		</thead>
 		<tbody>
 			<tr>
-				{{ Form::open(array('action' => 'TaskController@store')) }}
+				{{Form::open(['route' => ['tasks.update', $task->id], 'method' => 'put'])}}
 				<td>{{ Form::text('title', $task->title)}}							</td>
 				<td>{{ Form::text('description', $task->description)}}				</td>
-				<td>{{ Form::text('category_id', $task->category_id)}}				</td>
-				<td>{{ Form::text('employee_id', $task->employee_id)}}				</td>
+				<td>{{ Form::select('category_id', $categories)}}					</td>
+				<td>{{ Form::select('employee_id', $employees)}}					</td>
 				<td>{{ Form::submit('Change', ['class' => 'btn btn-success']) }}	</td>
 				{{ Form::close() }}
 			</tr>

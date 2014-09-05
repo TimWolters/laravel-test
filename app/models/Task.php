@@ -6,10 +6,10 @@ class Task extends Eloquent {
 
 
 	public function employee(){
-		return $this->belongsTo('Employee', 'foreign_key');
+		return $this->hasOne('Employee', 'id');
 	}
 
 	public function category(){
-		return $this->belongsTo('Category', 'foreign_key');
+		return $this->hasOne('Category', 'id');
 	}
 }

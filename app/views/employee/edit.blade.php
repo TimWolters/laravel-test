@@ -13,10 +13,10 @@
 		</thead>
 		<tbody>
 			<tr>
-				{{ Form::open(array('id' => $employee->id, 'action' => 'EmployeeController@update', 'method' => 'put')) }}
-				<td>{{ Form::text('firstname', 	$employee->firstname)}}						</td>
-				<td>{{ Form::text('lastname',	$employee->lastname)}}						</td>
-				<td>{{ Form::email('email',		$employee->email)}}							</td>
+				{{ Form::open(['route' => ['employees.update', $employee->id], 'method' => 'put']) }}
+				<td>{{ Form::text('firstname', 	$employee->firstname)}}					</td>
+				<td>{{ Form::text('lastname',	$employee->lastname)}}					</td>
+				<td>{{ Form::email('email',		$employee->email)}}						</td>
 				<td>{{ Form::password('password')}}										</td>
 				<td>{{ Form::password('password_confirm')}}								</td>
 				<td>{{ Form::submit('Change', ['class' => 'btn btn-success']) }}		</td>

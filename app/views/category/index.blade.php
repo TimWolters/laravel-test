@@ -18,15 +18,25 @@
 						</td>
 					@endforeach
 					<td>
-						<form action="categories/{{ $row->id }}/edit" method="get">
-						<button type='submit' class='btn btn-warning'>Change</button></form>
+						{{Form::open(['route' => ['categories.edit', $row->id], 'method' => 'get'])}}
+						{{Form::submit('Edit', ['class' => 'btn btn-warning'])}}
+						{{Form::close()}}
 					</td>
 					<td>
-						<form action="categories/{{ $row->id }}" method="delete">
-						<button type='submit' class='btn btn-danger'>Delete</button></form>
+						{{Form::open(['route' => ['categories.destroy', $row->id], 'method' => 'delete'])}}
+						{{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+						{{Form::close()}}
 					</td>
 				</tr>
 			@endforeach
+			<tr>
+				<td /> <!-- spacing id -->
+				{{ Form::open(array('action' => 'CategoryController@store')) }}
+				<td>{{ Form::text('name')}}										</td>
+				<td>{{ Form::text('description')}}								</td>
+				<td>{{ Form::submit('Add', ['class' => 'btn btn-success']) }}	</td>
+				{{ Form::close() }}
+			</tr>
 		</tbody>
 	</table>
 @stop
