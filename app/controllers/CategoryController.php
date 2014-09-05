@@ -15,7 +15,6 @@ class CategoryController extends \BaseController {
 			));
 	}
 
-
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -28,7 +27,6 @@ class CategoryController extends \BaseController {
 				'data' => \Model\Category::all()
 			));
 	}
-
 
 	/**
 	 * Store a newly created resource in storage.
@@ -55,7 +53,6 @@ class CategoryController extends \BaseController {
 		return Redirect::to('/categories/');
 	}
 
-
 	/**
 	 * Display the specified resource.
 	 *
@@ -67,7 +64,6 @@ class CategoryController extends \BaseController {
 		return View::make('category.show', array('row' => \Model\Category::find($id)));
 	}
 
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -78,7 +74,6 @@ class CategoryController extends \BaseController {
 	{
 		return View::make('category.edit', array('category' => \Model\Category::find($id), 'id' => $id));
 	}
-
 
 	/**
 	 * Update the specified resource in storage.
