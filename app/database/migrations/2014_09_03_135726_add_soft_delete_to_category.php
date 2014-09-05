@@ -12,13 +12,16 @@ class AddSoftDeleteToCategory extends Migration {
 	 */
 	public function up()
 	{
+		
+	Schema::table('tasks', function($table){
+			$table->softDeletes();
+		});
+
 		Schema::table('categories', function($table){
 			$table->softDeletes();
 		});
 
-		Schema::table('tasks', function($table){
-			$table->softDeletes();
-		});
+		
 	}
 
 	/**

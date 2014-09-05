@@ -1,6 +1,5 @@
 <?php
 
-
 class EmployeeController extends \BaseController {
 
 	/**
@@ -12,7 +11,7 @@ class EmployeeController extends \BaseController {
 	{
 		return View::make('employee.index', array(
 				'keys' => array('id', 'firstname', 'lastname', 'email'),
-				'data' => Employee::all()
+				'data' => \Model\Employee::all()
 			));
 	}
 
@@ -44,17 +43,25 @@ class EmployeeController extends \BaseController {
 			return $validator->failed();
 		}
 
-		if(Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')))){
+		if(Auth::attempt(array(
+				'email' => Input::get('email'), 
+				'password' => Input::get('password')))){
 			return Redirect::to('employees'); //change to personal tasks
 		}
 		return Redirect::to('login');
 	}
 
+	public function signout(){
+		Auth::logout();
+		return Redirect::to('/login');
+	}
+
+
 	public function login(){
 		return View::make('employee.login');
 	}
 
-
+	
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -75,7 +82,7 @@ class EmployeeController extends \BaseController {
 			return $validator->failed();
 		}
 		
-		$employee 						= new Employee;
+		$employee 						= new \Model\Employee;
 		$employee->firstname 			= Input::get('firstname');
 		$employee->lastname 			= Input::get('lastname');
 		$employee->email 				= Input::get('email');
@@ -105,7 +112,7 @@ class EmployeeController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		return View::make('employee.edit', array('employee' => Employee::find($id)));
+		return View::make('employee.edit', array('employee' => \Model\Employee::find($id)));
 	}
 
 	/**
@@ -128,9 +135,7 @@ class EmployeeController extends \BaseController {
 			return $validator->failed();
 		} 
 
-
-		echo $id;
-		$employee 				= Employee::find($id);
+		$employee 				= \Model\Employee::find($id);
 		$employee->firstname 	= Input::get('firstname');
 		$employee->lastname 	= Input::get('lastname');
 		$employee->email 		= Input::get('email');
@@ -148,7 +153,7 @@ class EmployeeController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		Employee::find($id)->delete();
+		\Model\Employee::find($id)->delete();
 		return Redirect::to('employees/');
 	}
 

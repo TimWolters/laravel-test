@@ -10,52 +10,75 @@ class TaskController extends \BaseController {
 	public function index()
 	{
 	return View::make('task.index', array(
-				'data' => Task::with('employee', 'category')->get(), 'employees' => Employee::lists('email','id'), 'categories' => Category::lists('name', 'id')
+				'data' => \Model\Task::with('employee', 'category')->get(), 
+				'employees' => \Model\Employee::lists('email','id'), 
+				'categories' => \Model\Category::lists('name', 'id'),
 			));
 	}
 
 	public function getTasksOfMe(){
-		return View::make('task.index', array('data' => Task::where('employee_id', '=', Auth::id())->get(), 'employees' => Employee::lists('email','id'), 'categories' => Category::lists('name', 'id')));
+		return View::make('task.index', array(
+				'data' => \Model\Task::where('employee_id', '=', Auth::id())->get(), 
+				'employees' => \Model\Employee::lists('email','id'), 
+				'categories' => \Model\Category::lists('name', 'id')));
 	}
 
 	public function getTasksOf($userId){
-		return View::make('task.index', array('data' => Task::where('employee_id', '=', $userId)->get(), 'employees' => Employee::lists('email','id'), 'categories' => Category::lists('name', 'id')));
+		return View::make('task.index', array(
+				'data' => \Model\Task::where('employee_id', '=', $userId)->get(), 
+				'employees' => \Model\Employee::lists('email','id'), 
+				'categories' => \Model\Category::lists('name', 'id')));
 	}
 
 	//deliver date in yyyy-mm-dd hh:mm:ss
 	public function getTasksBefore($date)
 	{
 		return View::make('task.index', array(
-				'data' => Task::where('due_date', '<', date($date))->get(), 'employees' => Employee::lists('email','id'), 'categories' => Category::lists('name', 'id')
+				'data' => \Model\Task::where('due_date', '<', date($date))->get(), 
+				'employees' => \Model\Employee::lists('email','id'), 
+				'categories' => \Model\Category::lists('name', 'id')
 			));
 	}
 
 	public function getTasksOrderedBy($column, $orderParam)
 	{
 		return View::make('task.index', array(
-				'data' => Task::all()->orderBy($column, $orderParam)
+				'data' => \Model\Task::orderBy($column, $orderParam)->get(),
+				'employees' => \Model\Employee::lists('email','id'), 
+				'categories' => \Model\Category::lists('name', 'id')
+			));
+	}
+
+	public function getDeletedTasks()
+	{
+		return View::make('task.index', array(
+				'data' => \Model\Task::onlyTrashed()->with('employee', 'category')->get(),
+				'employees' => \Model\Employee::lists('email','id'), 
+				'categories' => \Model\Category::lists('name', 'id')
 			));
 	}
 
 	public function completeTask($id)
 	{
-		$task 					= Task::find($id);
+		$task 					= \Model\Task::find($id);
 		$task->completed_at 	= strtotime(time());
-		echo strtotime(time());
 		$task->save();
 		return View::make('task.index', array(
-				'data' => Task::all()
+				'data' => \Model\Task::with('employee', 'category')->get(), 
+				'employees' => \Model\Employee::lists('email','id'), 
+				'categories' => \Model\Category::lists('name', 'id'),
 			));
 
 	}
 
-	public function restoreTask($id)
+	public function necroTask($id)
 	{
-		$task 					= Task::find($id);
-		$task->completed_at 	= '0000-00-00 00:00:00';
-		$task->save();
+		$task 					= \Model\Task::find($id);
+		$task->restore();
 		return View::make('task.index', array(
-				'data' => Task::all()
+				'data' => \Model\Task::with('employee', 'category')->get(), 
+				'employees' => \Model\Employee::lists('email','id'), 
+				'categories' => \Model\Category::lists('name', 'id'),
 			));
 	}
 
@@ -66,7 +89,10 @@ class TaskController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('task.create', ['employees' => Employee::lists('email','id'), 'categories' => Category::lists('name', 'id')]);
+		return View::make('task.create', 
+				['employees' => \Model\Employee::lists('email','id'), 
+				'categories' => \Model\Category::lists('name', 'id')]
+			);
 	}
 
 
@@ -92,7 +118,7 @@ class TaskController extends \BaseController {
 			return $validator->failed();
 		}
 
-		$task 				= new Task;
+		$task 				= new \Model\Task;
 		$task->title 		= Input::get('title');		
 		$task->description 	= Input::get('description');
 		$task->category_id 	= Input::get('category_id');
@@ -125,9 +151,9 @@ class TaskController extends \BaseController {
 	public function edit($id)
 	{
 		return View::make('task.edit', array(
-				'task' 			=> Task::find($id), 
-				'employees' 	=> Employee::lists('email','id'), 
-				'categories' 	=> Category::lists('name', 'id')
+				'task' 			=> \Model\Task::find($id), 
+				'employees' 	=> \Model\Employee::lists('email','id'), 
+				'categories' 	=> \Model\Category::lists('name', 'id')
 			));
 	}
 
@@ -153,7 +179,7 @@ class TaskController extends \BaseController {
 			return $validator->failed();
 		}
 
-		$task 				= Task::find($id);
+		$task 				= \Model\Task::find($id);
 		$task->title 		= Input::get('title');		
 		$task->description 	= Input::get('description');
 		$task->category_id 	= Input::get('category_id');
@@ -178,7 +204,7 @@ class TaskController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		Task::find($id)->delete();
+		\Model\Task::find($id)->delete();
 		return Redirect::to('./tasks/');
 	}
 

@@ -25,21 +25,18 @@
 
 @section('navbar')
 	<div class="navbar-header">
-		<a class="navbar-brand" href='../employees'>Employees</a>
+		<a class="navbar-brand" href='/employees'>Employees</a>
 	</div>
 	<div class="navbar-header">
-		<a class="navbar-brand" href='../tasks'>All Tasks</a>
+		<a class="navbar-brand" href='/tasks'>All Tasks</a>
 	</div>
 	<div class="navbar-header">
-		<a class="navbar-brand" href='../tasks/me'>My Tasks</a>
+		<a class="navbar-brand" href='/tasks/me'>My Tasks</a>
 	</div>
 	<div class="navbar-header">
-		<a class="navbar-brand" href='../categories'>Categories</a>
+		<a class="navbar-brand" href='/tasks/deleted'>Deleted Tasks</a>
 	</div>
-	<div class="navbar-header pull-right">
-		<a class="navbar-brand" href='../login'>Login</a>
-	</div>
-	<div class="navbar-header pull-right">
-		<a class="navbar-brand" href='../employees/create'>Register</a>
+	<div class="navbar-header">
+		<a class="navbar-brand" href='/categories'>Categories</a>
 	</div>
 @stop

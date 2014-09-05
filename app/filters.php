@@ -13,19 +13,7 @@
 
 App::before(function($request)
 {
-	//add the path after the base url if you want the page to be available for guests. Everything else is authenticated
-	switch($request->path()){ //this is the form to login
-		case "login":
-			break;
-		case "employees/create": //this is for the register form
-			break;
-		case "employee": //this is the call to the server
-			break;
-		default:
-			if(!(Auth::check())){
-				return Redirect::to('/login');
-			}
-	}
+	//
 });
 
 

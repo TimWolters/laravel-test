@@ -15,12 +15,3 @@
     </div>
 
 @stop
-
-@section('navbar')
-	<div class="navbar-header pull-right">
-		<a class="navbar-brand" href='../login'>Login</a>
-	</div>
-	<div class="navbar-header pull-right">
-		<a class="navbar-brand" href='../employees/create'>Register</a>
-	</div>
-@stop

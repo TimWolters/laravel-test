@@ -11,7 +11,7 @@ class CategoryController extends \BaseController {
 	{
 		return View::make('category.index', array(
 				'keys' => array('id', 'name', 'description'),
-				'data' => Category::all()
+				'data' => \Model\Category::all()
 			));
 	}
 
@@ -25,7 +25,7 @@ class CategoryController extends \BaseController {
 	{
 		return View::make('category.index', array(
 				'keys' => array('id', 'name', 'description'),
-				'data' => Category::all()
+				'data' => \Model\Category::all()
 			));
 	}
 
@@ -48,7 +48,7 @@ class CategoryController extends \BaseController {
 			return $validator->failed();
 		} 
 
-		$category 				= new Category;
+		$category 				= new \Model\Category;
 		$category->name 		= Input::get('name');
 		$category->description 	= Input::get('description');
 		$category->save();
@@ -64,7 +64,7 @@ class CategoryController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		return View::make('category.show', array('row' => Category::find($id)));
+		return View::make('category.show', array('row' => \Model\Category::find($id)));
 	}
 
 
@@ -76,7 +76,7 @@ class CategoryController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		return View::make('category.edit', array('category' => Category::find($id), 'id' => $id));
+		return View::make('category.edit', array('category' => \Model\Category::find($id), 'id' => $id));
 	}
 
 
@@ -88,7 +88,6 @@ class CategoryController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		echo $id;
 		$rules = array(
 				'name'			=> 'required',
 				'description'	=> 'required',
@@ -100,7 +99,7 @@ class CategoryController extends \BaseController {
 			return $validator->failed();
 		} 
 
-		$category 				= Category::find($id);
+		$category 				= \Model\Category::find($id);
 		$category->name 		= Input::get('name');
 		$category->description 	= Input::get('description');
 		$category->save();
@@ -116,8 +115,7 @@ class CategoryController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		Category::destroy($id); //THIS IS STILL DELETING STUFF
-
+		\Model\Category::destroy($id); 
 		return Redirect::to('../categories');
 	}
 
